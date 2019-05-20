@@ -1,0 +1,48 @@
+<app-carousel></app-carousel>
+<main class="container mt-5" role="main">
+
+
+  <!-- Button trigger modal -->
+  <div class="row justify-content-around">
+    <button class="btn btn-outline-primary m-3" mat-button (click)="openDialog()" *ngIf="isAdmin()" >Crear Esdeveniment</button>
+  <input aria-label="Buscar Event" class="form-control mr-sm-2 m-3 col-5" placeholder="Buscar Event" type="search"
+         #searchTerm (keyup)="performSearch(searchTerm.value)"/>
+
+  </div>
+  <div *ngIf="loading;else viewEvents" id="loading" style="text-align: center; margin-top: 100px; font-size: 1.5rem;">
+    <div id="spinner"></div>
+  </div>
+  <ng-template #viewEvents>
+    <table *ngIf="events?.length > 0;else noevents" class="table">
+      <thead>
+      <tr class="row">
+        <th class="col-3 col-sm-2" scope="col">Hora</th>
+        <th [ngClass]="isLoggedIn() ? 'col-7 col-sm-8': 'col-9 col-sm-10'" scope="col">Descripció</th>
+        <th class="col-2" scope="col" *ngIf="isLoggedIn()">Detalls</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let event of events" class='row table-hover'>
+        <th class="col-3 col-sm-2">
+          <a [routerLink]="['/placeholder']">
+            {{event.date | date :"dd/MM/yyyy HH:mm"}}
+          </a>
+        </th>
+        <td [ngClass]="isLoggedIn() ? 'col-7 col-sm-8': 'col-9 col-sm-10'">
+          <h4>{{event.description}}</h4>
+          <p style="color:gray">{{event.location}}</p>
+        </td>
+        <td class="col-2" *ngIf="isLoggedIn()">
+          <button (click)="details(event.id)" mat-button class="btn btn-outline-success" type="button" *ngIf="isLoggedIn()">Detalls</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <ng-template #noevents>
+      <div class="alert alert-primary" role="alert">
+        No hi ha esdeveniments!
+      </div>
+
+    </ng-template>
+  </ng-template>
+</main>

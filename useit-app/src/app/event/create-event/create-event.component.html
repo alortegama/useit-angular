@@ -1,0 +1,42 @@
+<form #form="ngForm" id="event-form">
+  <fieldset>
+
+    <div class="form-group" [class.was-validated]="data.dirty || data.touched">
+
+      <label class="col-form-label">
+        Data Esdeveniment:
+
+
+        <input [(ngModel)]="event.date" [min]="minDate" [owlDateTimeTrigger]="dt1"
+               [owlDateTime]="dt1" #data="ngModel"  disabled
+               name="data" placeholder="Data i Hora:" required />
+        <span class="trigger mouse-pointer ml-2" [owlDateTimeTrigger]="dt1" [disabled]='false'>
+          <i class="fa fa-calendar"></i>
+    </span>
+        <owl-date-time [disabled]='false' #dt1 ></owl-date-time>
+      </label>
+      <div class="invalid-feedback">Introduïr data i hora</div>
+    </div>
+    <div class="form-group" [class.was-validated]="description.dirty">
+      <label for="description">Descripció</label>
+      <textarea [(ngModel)]="event.description" #description="ngModel" class="form-control" id="description" name="description"
+                rows="3" required minlength="1"></textarea>
+      <div class="invalid-feedback">Descripció obligatòria</div>
+    </div>
+    <div class="form-group" [class.was-validated]="location.dirty">
+      <label for="description">Ubicació</label>
+      <input [(ngModel)]="event.location" #location="ngModel" class="form-control" id="location" name="location"
+               required minlength="1">
+      <div class="invalid-feedback">Ubicació obligatòria</div>
+    </div>
+    <!-- Button -->
+    <div class="form-group">
+      <button (click)="createEvent(form)" [disabled]="!form.form.valid" class="btn m-1 btn-success pull-right"
+              id="submit" type="submit">
+        Crear
+      </button>
+      <button class="btn btn-secondary" type="button" (click)="closeDialog()">Tancar</button>
+
+    </div>
+  </fieldset>
+</form>
